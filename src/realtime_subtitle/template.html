@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px 40px; /* 页面左右留出 40px 的空间 */
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        .audio-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        audio {
+            width: 80%; /* 增大音乐播放器的宽度 */
+            max-width: 800px; /* 设置最大宽度 */
+        }
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden; /* 防止内容溢出 */
+            padding: 0 20px; /* 添加左右内边距 */
+            max-width: 1200px; /* 限制最大宽度 */
+            margin: 0 auto; /* 居中对齐 */
+        }
+        .content, .translation {
+            flex: 1;
+            overflow-y: auto; /* 独立的垂直滚动条 */
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+        .content {
+            margin-right: 5px; /* 左右布局中间的间距 */
+        }
+        .translation {
+            margin-left: 5px;
+        }
+        .segment {
+            cursor: pointer;
+            color: #000000;
+            text-decoration: none; /* 移除下划线 */
+            font-size: 1.2em; /* 调大字体 */
+        }
+        .segment.hover {
+            background-color: #79e2a8; /* 悬停时的背景色 */
+        }
+        .segment.active {
+            background-color: #ffd700; /* 高亮显示的背景色 */
+        }
+        .speaker-line {
+            font-weight: bold;
+            margin: 10px 0;
+            color: #555;
+            cursor: pointer; /* 鼠标悬停时显示为手型 */
+        }
+        .speaker-line:hover {
+            text-decoration: underline; /* 鼠标悬停时添加下划线 */
+        }
+        .toggle-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+        .toggle-label {
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Transcription</h1>
+    <!-- 添加开关 -->
+    <div class="toggle-container">
+        <label class="switch">
+            <input type="checkbox" id="toggle-speaker-lines" checked>
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Show Speakers</span>
+    </div>
+    <div class="audio-container">
+        <audio id="audio" controls src="{{ audio_path }}"></audio>
+    </div>
+    <div class="main-container">
+        <div class="content">
+            {{ content }}
+        </div>
+        <div class="translation">
+            {{ translation }}
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const audio = document.getElementById('audio');
+            const segments = document.querySelectorAll('.segment');
+
+            if (!audio) {
+                console.error("Audio element not found!");
+                return;
+            }
+
+            // 音频播放时，根据时间高亮对应的 segment
+            audio.addEventListener('timeupdate', () => {
+                const currentTime = audio.currentTime;
+
+                let activeSegment = null;
+
+                segments.forEach(segment => {
+                    const startTime = parseFloat(segment.dataset.startTime);
+                    const endTime = parseFloat(segment.dataset.endTime);
+
+                    if (isNaN(startTime) || isNaN(endTime)) {
+                        console.error("Invalid start or end time for segment:", segment);
+                        return;
+                    }
+
+                    // 判断当前时间是否在 segment 的时间范围内
+                    if (currentTime >= startTime && currentTime < endTime) {
+                        segment.classList.add('active');
+                        activeSegment = segment;
+                        // 确保高亮的 segment 可见
+                        const parent = activeSegment.parentNode;
+                        const parentRect = parent.getBoundingClientRect();
+                        const segmentRect = activeSegment.getBoundingClientRect();
+                        const offset = segmentRect.top - parentRect.top - parent.clientHeight / 2;
+                        // 只有当滚动差值较大时才滚动
+                        if (Math.abs(offset) > parent.clientHeight / 3) { 
+                            parent.scrollTo({
+                                top: parent.scrollTop + offset,
+                                behavior: 'smooth' // 平滑滚动
+                            });
+                        }
+                    } else {
+                        segment.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // 点击某个 segment 时，滚动到对应的另一侧
+        document.querySelectorAll('.segment').forEach(segment => {
+            segment.addEventListener('click', () => {
+                // 播放音频并跳转到对应的时间
+                const audio = document.getElementById('audio');
+                audio.currentTime = parseFloat(segment.dataset.startTime);
+                audio.play();
+                // 滚动到对应的 segment
+                const index = segment.dataset.index; // 获取当前 segment 的 index
+                document.querySelectorAll(`.segment[data-index="${index}"]`).forEach(s => {
+                    s.scrollIntoView({ behavior: 'smooth', block: 'center' }); // 平滑滚动到对应的 segment
+                });
+            });
+        });
+
+        // 为每个 segment 添加 hover 联动效果
+        document.querySelectorAll('.segment').forEach(segment => {
+            segment.addEventListener('mouseenter', () => {
+                const index = segment.dataset.index; // 获取当前 segment 的 index
+                document.querySelectorAll(`.segment[data-index="${index}"]`).forEach(s => {
+                    s.classList.add('hover'); // 添加 hover 样式
+                });
+            });
+            segment.addEventListener('mouseleave', () => {
+                const index = segment.dataset.index; // 获取当前 segment 的 index
+                document.querySelectorAll(`.segment[data-index="${index}"]`).forEach(s => {
+                    s.classList.remove('hover'); // 移除 hover 样式
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const content_segments = document.querySelectorAll('.content .segment');
+            const translation_segments = document.querySelectorAll('.translation .segment');
+            const toggleSpeakerLines = document.getElementById('toggle-speaker-lines');
+            let lastSpeakerIndex = -1;
+
+            // 函数：插入“Speaker {i}”行
+            const insertSpeakerLines = () => {
+                lastSpeakerIndex = -1; // 重置
+                content_segments.forEach(segment => {
+                    const speakerIndex = segment.dataset.speakerIndex;
+
+                    // 如果说话人发生变化，插入“Speaker {i}”行
+                    if (lastSpeakerIndex !== speakerIndex) {
+                        lastSpeakerIndex = speakerIndex;
+
+                        const speakerLine = document.createElement('div');
+                        speakerLine.textContent = `Speaker ${speakerIndex}`;
+                        speakerLine.classList.add('speaker-line');
+                        speakerLine.dataset.speakerIndex = speakerIndex; // 保存 speakerIndex
+                        segment.parentNode.insertBefore(speakerLine, segment);
+
+                        // 添加点击事件，允许用户输入自定义名称
+                        speakerLine.addEventListener('click', () => {
+                            const newName = prompt("Enter the name for this speaker:", speakerLine.textContent);
+                            if (newName) {
+                                // 更新所有具有相同 speakerIndex 的 speaker-line
+                                document.querySelectorAll(`.speaker-line[data-speaker-index="${speakerIndex}"]`).forEach(line => {
+                                    line.textContent = newName;
+                                });
+                            }
+                        });
+                    }
+                });
+
+                lastSpeakerIndex = -1; // 重置
+                translation_segments.forEach(segment => {
+                    const speakerIndex = segment.dataset.speakerIndex;
+
+                    // 如果说话人发生变化，插入“Speaker {i}”行
+                    if (lastSpeakerIndex !== speakerIndex) {
+                        lastSpeakerIndex = speakerIndex;
+
+                        const speakerLine = document.createElement('div');
+                        speakerLine.textContent = `Speaker ${speakerIndex}`;
+                        speakerLine.classList.add('speaker-line');
+                        speakerLine.dataset.speakerIndex = speakerIndex; // 保存 speakerIndex
+                        segment.parentNode.insertBefore(speakerLine, segment);
+
+                        // 添加点击事件，允许用户输入自定义名称
+                        speakerLine.addEventListener('click', () => {
+                            const newName = prompt("Enter the name for this speaker:", speakerLine.textContent);
+                            if (newName) {
+                                // 更新所有具有相同 speakerIndex 的 speaker-line
+                                document.querySelectorAll(`.speaker-line[data-speaker-index="${speakerIndex}"]`).forEach(line => {
+                                    line.textContent = newName;
+                                });
+                            }
+                        });
+                    }
+                });
+            };
+
+            // 函数：移除所有“Speaker {i}”行
+            const removeSpeakerLines = () => {
+                document.querySelectorAll('.speaker-line').forEach(line => line.remove());
+            };
+
+            // 初始化插入“Speaker {i}”行
+            insertSpeakerLines();
+
+            // 监听开关状态变化
+            toggleSpeakerLines.addEventListener('change', () => {
+                if (toggleSpeakerLines.checked) {
+                    insertSpeakerLines();
+                } else {
+                    removeSpeakerLines();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

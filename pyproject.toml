@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "realtime_subtitle"
+version = "0.0.4"
+authors = [
+  { name="qiming", email="glimmerddl@gmail.com" },
+]
+dependencies = [
+    "numpy>=2.0.2",
+    "argostranslate>=1.9.6",
+    "torch>=2.7.0",
+    "mlx-whisper==0.4.2",
+    "scikit-learn>=1.6.1",
+    "translate>=3.6.1",
+    "speechbrain==1.0.3",
+]
+description = "realtime subtitle"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: MacOS",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.scripts]
+realtime-subtitle = "realtime_subtitle.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Issues = "https://github.com/pypa/sampleproject/issues"
