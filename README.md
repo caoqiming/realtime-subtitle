@@ -1,6 +1,6 @@
 # realtime subtitle
 
-This is a realtime subtitle.
+This is an offline realtime subtitle program for M-series mac.
 
 ```bash
 # to run with a ui
