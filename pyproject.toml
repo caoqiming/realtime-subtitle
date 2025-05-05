@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "realtime_subtitle"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="qiming", email="glimmerddl@gmail.com" },
 ]
@@ -16,6 +16,7 @@ dependencies = [
     "scikit-learn>=1.6.1",
     "translate>=3.6.1",
     "speechbrain==1.0.3",
+    "PyAudio>=0.2.14"
 ]
 description = "realtime subtitle"
 readme = "README.md"

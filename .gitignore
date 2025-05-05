@@ -2,3 +2,5 @@ data
 __pycache__
 temp.*
 .DS_Store
+dist
+todo.md

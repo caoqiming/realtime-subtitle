@@ -268,7 +268,7 @@ class RealtimeSubtitle:
         # 声纹识别
         if cfg.EnableSpeakerRecognition:
             speaker_recognition_start = time.time()
-            print("start speaker recognition, this may take some time...")
+            print("start speaker recognition, this may takes some time...")
             self.speech_recognition.fit_predict(
                 all_data, self.audio_buffer, speaker_num=speaker_num)
             speaker_recognition_end = time.time()
