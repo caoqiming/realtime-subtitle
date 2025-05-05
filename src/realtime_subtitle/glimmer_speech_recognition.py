@@ -12,8 +12,6 @@ class SpeechRecognition:
     def __init__(self):
         self.recognizer = SpeakerRecognition.from_hparams(
             source="speechbrain/spkrec-ecapa-voxceleb",
-            savedir=os.path.expanduser(
-                "~/.cache/speechbrain/spkrec-ecapa-voxceleb"),
         )
 
     def get_embed(self, current_buffer: bytes) -> np.ndarray:
