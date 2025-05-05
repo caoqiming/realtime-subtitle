@@ -3,16 +3,17 @@ import dataclasses
 import json
 import os
 
-CONFIG_FILE_PATH = "~/.config/glimmer/glimmer-whisper.config"
+CONFIG_FILE_PATH = "~/.config/glimmer/realtime-subtitle.config"
 
 
 @dataclass
 class AppConfig:
     InputDevice: str = "default"
     # 语音识别的模型名称
-    ModelName: str = "mlx-community/whisper-small-mlx"
+    ModelName: str = "mlx-community/whisper-tiny.en-mlx"
     # 可选的语音识别的模型名称
     AllModelName: list[str] = field(default_factory=lambda: [
+        "mlx-community/whisper-tiny.en-mlx",
         "mlx-community/whisper-small-mlx",
         "mlx-community/whisper-medium-mlx",
         "mlx-community/whisper-turbo",
@@ -50,7 +51,7 @@ class AppConfig:
     TranslationFloatingWindowXOffset: float = 0.25
     TranslationFloatingWindowYOffset: float = 0.71
     # 文件保存路径
-    SavePath: str = "~/Desktop/glimmer-whisper"
+    SavePath: str = "~/Desktop/realtime-subtitle"
 
 
 def _load_config(file_path: str) -> AppConfig:

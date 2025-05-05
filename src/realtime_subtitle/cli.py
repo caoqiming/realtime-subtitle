@@ -27,6 +27,7 @@ def main():
 
 
 def run_ui(args):
+    print("The first time you open it, it may take a while because some models need to be downloaded...")
     from realtime_subtitle.ui import main as ui_main
     ui_main()
 

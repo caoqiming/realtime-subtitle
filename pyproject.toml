@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "realtime_subtitle"
-version = "0.0.7"
+version = "0.0.8"
 authors = [
   { name="qiming", email="glimmerddl@gmail.com" },
 ]

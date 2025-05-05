@@ -23,3 +23,5 @@ realtime-subtitle ui
 # to parse a wav file
 realtime-subtitle parse -f {your_wav_file_path}
 ```
+
+you can find more whisper models [here](https://huggingface.co/collections/mlx-community/whisper-663256f9964fbb1177db93dc)
