@@ -37,7 +37,7 @@ def parse_audio(file_path: str, speaker_num: int = -1):
 
         # Convert to bytes
         current_buffer: bytes = audio_data.tobytes()
-        from realtime_subtitle import RealtimeSubtitle
+        from realtime_subtitle.subtitle import RealtimeSubtitle
         rs = RealtimeSubtitle()
         rs.audio_buffer = current_buffer
         rs.handle_once()

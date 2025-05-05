@@ -10,10 +10,10 @@ import json
 import argostranslate.package
 import argostranslate.translate
 from translate import Translator
-from . import app_config
-from . import glimmer_speech_recognition
+from realtime_subtitle import app_config
+from realtime_subtitle import glimmer_speech_recognition
 import os
-from .common import *
+from realtime_subtitle.common import *
 
 cfg = app_config.get()
 

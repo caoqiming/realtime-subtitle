@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import *
-from .realtime_subtitle import RealtimeSubtitle
-from . import app_config
+from realtime_subtitle.subtitle import RealtimeSubtitle
+from realtime_subtitle import app_config
 rs = RealtimeSubtitle()
 cfg = app_config.get()
 # UI

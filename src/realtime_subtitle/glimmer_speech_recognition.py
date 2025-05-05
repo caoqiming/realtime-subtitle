@@ -1,10 +1,10 @@
-from .common import *
+from realtime_subtitle.common import *
 import numpy as np
 from sklearn.preprocessing import normalize
 from speechbrain.inference.speaker import SpeakerRecognition
 import os
 import torch
-from . import app_config
+from realtime_subtitle import app_config
 cfg = app_config.get()
 
 

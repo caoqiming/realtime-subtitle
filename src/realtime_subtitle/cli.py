@@ -27,12 +27,12 @@ def main():
 
 
 def run_ui(args):
-    from .ui import main as ui_main
+    from realtime_subtitle.ui import main as ui_main
     ui_main()
 
 
 def run_parse(args):
-    from .parse_audio import parse_audio
+    from realtime_subtitle.parse_audio import parse_audio
     file_path = args.file
     if args.speakers:
         speaker_num = int(args.speakers)
