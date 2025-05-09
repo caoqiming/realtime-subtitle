@@ -1,5 +1,7 @@
 # realtime subtitle
 
+[中文](./README-zh.md)
+
 This is an offline realtime subtitle program for M-series mac.
 
 ## install
