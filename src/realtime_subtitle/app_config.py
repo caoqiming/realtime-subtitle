@@ -40,13 +40,12 @@ class AppConfig:
     TranslationSubtitleHight: int = 3
     ModelRefuseThreshold: int = 3
     TranslationPresantDelay: int = 0  # 在最新的多少个segment之后才显示翻译，避免翻译显示抖动严重
-    EnableFloatingWindowEdge: bool = False  # 悬浮窗口边框，没有边框就无法拖动
+    FloatingWindowFontSize: int = 20
+    FloatingWindowTextColor: str = "#FFFFFF"  # "#004604"
+    FloatingWindowTextEdgeColor: str = "#000000"
+    FloatingWindowBackgroundColor: str = "rgba(0, 0, 0, 150)"
     FloatingWindowX: float = 0.5
     FloatingWindowY: float = 0.085
-    FloatingWindowTransparency: float = 0.9  # 1.0 表示不透明
-    FloatingWindowFontSize: int = 20
-    FloatingWindowTextColor: str = "#004604"
-    FloatingWindowBackgroundColor: str = "#dadada"
     FloatingWindowXOffset: float = 0.25
     FloatingWindowYOffset: float = 0.8
     TranslationFloatingWindowXOffset: float = 0.25
@@ -100,12 +99,7 @@ def save(cfg: AppConfig):
 if __name__ == "__main__":
     _save_config(
         CONFIG_FILE_PATH,
-        AppConfig(
-            ModelName="whisper-1",
-            AllModelName=["whisper-1", "whisper-2"],
-            Latency=0.5,
-            Translate=True
-        )
+        AppConfig()
     )
     app_config = _load_config(CONFIG_FILE_PATH)
     print(app_config)
