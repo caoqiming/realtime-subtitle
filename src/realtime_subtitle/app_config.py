@@ -36,12 +36,13 @@ class AppConfig:
     # UI
     SubtitleLength: int = 80
     SubtitleHight: int = 3
-    TranslationSubtitleLength: int = 40
+    TranslationSubtitleLength: int = 39
     TranslationSubtitleHight: int = 3
     ModelRefuseThreshold: int = 3
     TranslationPresantDelay: int = 0  # 在最新的多少个segment之后才显示翻译，避免翻译显示抖动严重
     EnableFloatingWindowEdge: bool = False  # 悬浮窗口边框，没有边框就无法拖动
-    FloatingWindowSize: str = "820x75"
+    FloatingWindowX: float = 0.5
+    FloatingWindowY: float = 0.085
     FloatingWindowTransparency: float = 0.9  # 1.0 表示不透明
     FloatingWindowFontSize: int = 20
     FloatingWindowTextColor: str = "#004604"
