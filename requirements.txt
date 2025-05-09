@@ -5,7 +5,8 @@ click==8.1.8
 ctranslate2==4.6.0
 filelock==3.18.0
 fsspec==2025.3.2
-huggingface-hub==0.30.2
+hf-xet==1.1.0
+huggingface-hub==0.31.1
 HyperPyYAML==1.2.2
 idna==3.10
 Jinja2==3.1.6
@@ -24,8 +25,11 @@ numpy==2.0.2
 packaging==25.0
 protobuf==6.30.2
 PyAudio==0.2.14
+PyQt6==6.9.0
+PyQt6-Qt6==6.9.0
+PyQt6_sip==13.10.0
 PyYAML==6.0.2
-realtime_subtitle==0.0.4
+realtime_subtitle==0.0.9
 regex==2024.11.6
 requests==2.32.3
 ruamel.yaml==0.18.10

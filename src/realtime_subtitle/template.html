@@ -34,6 +34,7 @@
             overflow: hidden; /* 防止内容溢出 */
             padding: 0 20px; /* 添加左右内边距 */
             max-width: 1200px; /* 限制最大宽度 */
+            min-width: 600px; /* 限制最小宽度 */
             margin: 0 auto; /* 居中对齐 */
         }
         .content, .translation {
@@ -126,7 +127,7 @@
     </style>
 </head>
 <body>
-    <h1>Transcription</h1>
+    <h1 id="editable-title" contenteditable="true" style="cursor: pointer;">Transcription</h1>
     <!-- 添加开关 -->
     <div class="toggle-container">
         <label class="switch">
@@ -303,6 +304,25 @@
                     insertSpeakerLines();
                 } else {
                     removeSpeakerLines();
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const titleElement = document.getElementById("editable-title");
+
+            titleElement.addEventListener("blur", () => {
+                if (titleElement.textContent.trim() === "") {
+                    alert("Title cannot be empty!");
+                    titleElement.textContent = "Transcription"; // 恢复默认标题
+                }
+            });
+
+            titleElement.addEventListener("keydown", (event) => {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // 阻止换行
+                    titleElement.blur(); // 触发失焦事件
                 }
             });
         });
