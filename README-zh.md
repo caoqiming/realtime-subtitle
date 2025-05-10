@@ -25,6 +25,7 @@ brew install portaudio
 #### python>=3.9
 
 使用 conda 创建虚拟环境（可选）
+如果你还没有 conda，参考 minicanda 的[官网](https://www.anaconda.com/docs/getting-started/miniconda/install#macos-linux-installation)进行安装。
 
 ```bash
 conda create -n subtitle python=3.9
