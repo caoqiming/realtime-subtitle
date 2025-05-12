@@ -4,3 +4,4 @@ temp.*
 .DS_Store
 dist
 todo.md
+test.py
